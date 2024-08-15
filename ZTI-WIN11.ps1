@@ -1,7 +1,7 @@
 Write-Host -ForegroundColor Green "Starting OSDCloud ZTI"
 Start-Sleep -Seconds 5
 
-Start-OSDCloud -OSVersion 'Windows 11' -OSBuild 22H2 -OSEdition Pro -OSLanguage en-us -OSLicense Retail -ZTI
+Start-OSDCloud -OSLanguage en-us -OSName 'Windows 11 22H2 x64' -OSLicense Retail -OSEdition Pro -ZTI
 
 #Restart from WinPE
 
