@@ -1,3 +1,20 @@
+# Get all removable devices
+$removableDevices = Get-WmiObject -Query "SELECT * FROM Win32_Volume WHERE DriveType = 2"
+
+# Create a Shell.Application COM object
+$shell = New-Object -ComObject Shell.Application
+
+# Eject each removable device
+foreach ($device in $removableDevices) {
+    $driveLetter = $device.DriveLetter
+    if ($driveLetter) {
+        $shell.Namespace(17).ParseName($driveLetter).InvokeVerb("Eject")
+        Write-Output "Ejected: $driveLetter"
+    }
+}
+Start-Sleep -Seconds 5
+
+# Start OSDCloud ZTI
 Write-Host -ForegroundColor Green "Starting OSDCloud ZTI"
 Start-Sleep -Seconds 5
 
