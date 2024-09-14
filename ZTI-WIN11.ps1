@@ -22,8 +22,8 @@ Start-OSDCloud -OSLanguage en-us -OSName 'Windows 11 22H2 x64' -OSLicense Retail
 
 #Restart from WinPE
 
-#Write-Host -ForegroundColor Green “Restarting in 20 seconds!”
+Write-Host -ForegroundColor Green “Restarting in 20 seconds!”
 
-#Start-Sleep -Seconds 20
+Start-Sleep -Seconds 20
 
-#wpeutil reboot
+wpeutil reboot
