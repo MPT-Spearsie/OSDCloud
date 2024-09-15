@@ -22,7 +22,6 @@ $Global:MyOSDCloud = [ordered]@{
 
 #Check OSD Cloud vars
 Write-Host $global:OSDCloud
-Start-Sleep -Seconds 300
 
 #Launch OSDCloud
 Write-Host "Starting OSDCloud" -ForegroundColor Green
