@@ -1,16 +1,14 @@
 # Get all removable devices
 $removableDevices = Get-WmiObject -Query "SELECT * FROM Win32_Volume WHERE DriveType = 2"
 
-# Create a Shell.Application COM object
-$shell = New-Object -ComObject Shell.Application
-
-# Eject each removable device
+# Remove the drive letter for each removable device
 foreach ($device in $removableDevices) {
     $driveLetter = $device.DriveLetter
-    if ($driveLetter) {
-        $shell.Namespace(17).ParseName($driveLetter).InvokeVerb("Eject")
-        Write-Output "Ejected: $driveLetter"
-    }
+    Write-Host $driveLetter
+        # Remove the drive letter
+        Get-Partition -DriveLetter $driveLetter | Remove-PartitionAccessPath -AccessPath $driveLetter
+        Write-Output "Removed drive letter: $driveLetter"
+
 }
 Start-Sleep -Seconds 5
 
