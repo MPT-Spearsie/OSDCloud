@@ -1,27 +1,30 @@
-# Get all removable devices
-$removableDevices = Get-WmiObject -Query "SELECT * FROM Win32_Volume WHERE DriveType = 2"
+#Variables to define the Windows OS / Edition etc to be applied during OSDCloud
+$OSName = 'Windows 11 23H2 x64'
+$OSEdition = 'Pro'
+$OSActivation = 'Retail'
+$OSLanguage = 'en-us'
 
-# Remove the drive letter for each removable device
-foreach ($device in $removableDevices) {
-    $driveLetter = $device.DriveLetter
-    Write-Host $driveLetter
-        # Remove the drive letter
-        Get-Partition -DriveLetter $driveLetter | Remove-PartitionAccessPath -AccessPath $driveLetter
-        Write-Output "Removed drive letter: $driveLetter"
-
+#Set OSDCloud Vars
+$Global:MyOSDCloud = [ordered]@{
+    Restart = [bool]$False
+    RecoveryPartition = [bool]$true
+    OEMActivation = [bool]$True
+    WindowsUpdate = [bool]$true
+    WindowsUpdateDrivers = [bool]$true
+    WindowsDefenderUpdate = [bool]$true
+    SetTimeZone = [bool]$true
+    ClearDiskConfirm = [bool]$False
+    ShutdownSetupComplete = [bool]$false
+    SyncMSUpCatDriverUSB = [bool]$true
+    CheckSHA1 = [bool]$true
 }
-Start-Sleep -Seconds 5
 
-# Start OSDCloud ZTI
-Write-Host -ForegroundColor Green "Starting OSDCloud ZTI"
-Start-Sleep -Seconds 5
+#Check OSD Cloud vars
+Write-Host $global:OSDCloud
+Start-Sleep -Seconds 300
 
-Start-OSDCloud -OSLanguage en-us -OSName 'Windows 11 22H2 x64' -OSLicense Retail -OSEdition Pro -ZTI
+#Launch OSDCloud
+Write-Host "Starting OSDCloud" -ForegroundColor Green
+write-host "Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage"
 
-#Restart from WinPE
-
-Write-Host -ForegroundColor Green “Restarting in 20 seconds!”
-
-Start-Sleep -Seconds 20
-
-wpeutil reboot
+Start-OSDCloud -OSName $OSName -OSEdition $OSEdition -OSActivation $OSActivation -OSLanguage $OSLanguage
